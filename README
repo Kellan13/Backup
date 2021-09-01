@@ -1,0 +1,81 @@
+Author: Kellan Anderson
+Date: 08/23/21
+
+This program is meant to serve as a backup program for my raspberry pi. In the past I have had to
+access lost files using a separate linux distro and I would like a program that put all specified
+files on a flash drive for my convenience. The program will operate off of two main files: one for
+altering settings and turning the backup on and off and one that will copy and compress all of the
+files listed for backup. The backup drive will have a verification file which will be used to 
+ensure security and will require a password in order to alter any settings. The backup command will
+be stored as a alias. Program will be written in python3.
+
+Encryption ideas
+*Scramble the username entered during setup using the password as a key and store it in the 
+ settings file. To authenticate, enter the username and password. Use the password to unscramble
+ the stored username and check if the stored user name is the same as the entered username. If it
+ is, then the user has been authenticate.
+
+Program requirements:
+*Read a list of files and copy them to an external drive (Done)
+*Output any errors to an error file & store error file with copied files (Done)
+*Ensure that a verification file is stored on the external drive if present (Done)
+*Complete any commands specified below (Done)
+*Output backup time & number of files backed up (Partially done)
+*In order for the backup to be run automatically (via crontab) the time specified for the program 
+ to run in the settings file must be within 5 minutes of the current time (Not done)
+
+Future program upgrades:
+*List of installed packages
+*Possible auto reinstall of packages
+*recovery program
+
+
+----------Program Structure----------
+COMMAND - backup
+OPTIONS
+-on  	-> Starts the backup program. Will not run if program has not been setup
+	       USE: backup on
+-off 	-> Stops the backup program from running
+	       USE: backup off
+-setup  -> Starts the setup process that has to be run before program can run. Options can be
+           specified that change a specific setting
+           USE: backup setup OR backup setup <option>
+-add    -> Adds a file/directory to the list of files to copy
+           USE: backup add <path to location>
+-remove -> Removes a file/directory from th list of files to copy. Returns error if location does
+	       not exist in the copy list
+	       USE: backup remove <path to file>
+-run 	-> Backs up all files in the files to copy list. Requires password. Will run regardless
+	       if program is on or off
+	       USE: backup run
+
+----------pseudocode----------
+Setup:
+1) Ask for a username, password & drive location
+2) Create and fill a .json file to contain settings
+3) Create a file to contain the list of files to copy
+
+Main
+1) Program is turned on either manually or in start file. Achieved through the settings/frontend
+   file.
+2) Using crontab, the file responsible for actually backing up files will run at the time specified
+   in the setup. Steps 3-10 will not do anything if program has be turned "off"
+3) Check to see if the program is "on"
+4) Check for verification file
+5) Create & name folder and create log & error file
+6) Read from list of files to copy and store in array
+7) Loop through array and copy files to backup location & count files copied
+8) Output data to log file
+9) Tar Folder, error file & log file & name in the format of MMDDYYHHMinMin
+10) Move tar folder to drive and delete temporary tar folder
+11) End of program
+
+----------Sample settings----------
+{
+    "username": "Kellan",
+    "unlock_key": "auebvuirofwonfujf",
+    "status": True,
+    "location": "~/drive/backup/",
+    "verification": "rafgtbnfig"
+    "setup": False
+}
