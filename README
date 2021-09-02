@@ -34,20 +34,20 @@ Future program upgrades:
 COMMAND - backup
 OPTIONS
 -on  	-> Starts the backup program. Will not run if program has not been setup
-	       USE: backup on
+           USE: backup on
 -off 	-> Stops the backup program from running
-	       USE: backup off
+           USE: backup off
 -setup  -> Starts the setup process that has to be run before program can run. Options can be
            specified that change a specific setting
            USE: backup setup OR backup setup <option>
 -add    -> Adds a file/directory to the list of files to copy
            USE: backup add <path to location>
 -remove -> Removes a file/directory from th list of files to copy. Returns error if location does
-	       not exist in the copy list
-	       USE: backup remove <path to file>
+           not exist in the copy list
+           USE: backup remove <path to file>
 -run 	-> Backs up all files in the files to copy list. Requires password. Will run regardless
-	       if program is on or off
-	       USE: backup run
+           if program is on or off
+           USE: backup run
 
 ----------pseudocode----------
 Setup:

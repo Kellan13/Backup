@@ -60,7 +60,7 @@ class Settings:
     def setup(self):
         print("Setup can only be done once. At anytime you can press Ctrl+c to leave setup program")
         try:
-            if not self.settings_data:
+            if not self.settings_data["setup"]:
                 self.settings_data["setup"] = True
                 username = self.username()
                 location = self.location()
@@ -70,7 +70,7 @@ class Settings:
                 self.settings_data["unlock_key"] = self.encryption.scramble(username, self.password())
                 self.update()
         except KeyboardInterrupt:
-            pass
+            print()
 
     def get_setup(self):
         return self.settings_data["status"]
